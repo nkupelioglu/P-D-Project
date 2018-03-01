@@ -1,0 +1,36 @@
+#!/usr/bin/python
+import sys
+import hashlib
+import os
+import os.path
+import time
+#from __future__ import print_function
+
+def WriteDebugFile(level,exstring):
+	debugpath = "/home/deneme4"
+	directory = "/debug"
+	if not os.path.exists(debugpath + directory):
+		os.makedirs(debugpath + directory)
+	timestr = time.strftime("%Y%m%d-%H%M%S")
+	fdebug = open(debugpath + directory + "/" + "RMALL" + "-" +  level + "-" + timestr, "w+")
+	fdebug.write(exstring)
+	fdebug.close()	
+
+path = "/home/deneme4/Desktop/fs_real/"
+
+#buf = raw_input()
+buf = sys.stdin.readline().strip()
+try:
+	if len(buf):
+		name = buf
+		WriteDebugFile("00","At: " + path + name)
+		if os.path.exists(path + name):
+			if os.path.isfile(path + name):
+				os.remove(path + name)
+			else:
+				os.rmdir(path + name)
+except Exception as ex:
+	WriteDebugFile("40",str(ex))
+
+
+

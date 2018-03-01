@@ -1,0 +1,13 @@
+service get
+{
+        port = 3002
+        disable = no
+        socket_type = stream
+        protocol = tcp
+        wait = no
+        user = deneme1
+        server = /home/deneme1/Desktop/py_app/get
+        log_on_failure += USERID
+        log_on_success += USERID
+}
+

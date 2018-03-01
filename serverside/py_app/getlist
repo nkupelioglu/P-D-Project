@@ -1,0 +1,55 @@
+#!/usr/bin/python
+import sys
+import hashlib
+import os
+import os.path
+import time
+#from __future__ import print_function
+
+def WriteDebugFile(level,exstring):
+	debugpath = "/home/deneme4"
+	directory = "/debug"
+	if not os.path.exists(debugpath + directory):
+		os.makedirs(debugpath + directory)
+	timestr = time.strftime("%Y%m%d-%H%M%S")
+	fdebug = open(debugpath + directory + "/" + "GETLIST" + "-" +  level + "-" + timestr, "w+")
+	fdebug.write(exstring)
+	fdebug.close()	
+
+path = "/home/deneme4/Desktop/fs_real/"
+n = 5
+#buf = raw_input()
+dir_list = []
+file_list = []
+return_string = ''
+buf = sys.stdin.readline().strip()
+try:
+	if len(buf):
+		folder_name = buf
+		#WriteDebugFile("00","Folder name is: " + folder_name)
+		for root, directories, filenames in os.walk('/home/deneme4/Desktop/fs_real/' + folder_name):
+			for directory in directories:
+				dir_list.append(os.path.join(root, directory))
+				#WriteDebugFile("DIR","Return string is: " + return_string)
+			for filename in filenames:
+				file_list.append(os.path.join(root, filename))
+				#WriteDebugFile("FILE","Return string is: " + return_string)
+		for direlem in dir_list:
+			dir_path_list = direlem.split('/')
+			dir_path = '/'.join(dir_path_list[n:])
+			return_string += (dir_path + "#dir:")
+		for fileelem in file_list:
+			file_path_list = fileelem.split('/')
+			file_path = '/'.join(file_path_list[n:])
+			return_string += (file_path + "#file:")
+		WriteDebugFile("00","Return string is: " + return_string)
+		print(return_string)
+		sys.stdout.flush()
+			
+				
+except Exception as ex:
+	WriteDebugFile("40",str(ex))
+
+
+
+

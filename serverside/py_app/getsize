@@ -1,0 +1,30 @@
+#!/usr/bin/python
+import sys
+import hashlib
+import os.path
+import os
+import time
+#from __future__ import print_function
+
+def WriteDebugFile(level,exstring):
+	debugpath = "/home/deneme4"
+	directory = "/debug"
+	if not os.path.exists(debugpath + directory):
+		os.makedirs(debugpath + directory)
+	timestr = time.strftime("%Y%m%d-%H%M%S")
+	fdebug = open(debugpath + directory + "/" + "GETSIZE" + "-" +  level + "-" + timestr, "w+")
+	fdebug.write(exstring)
+	fdebug.close()	
+
+def get_size(start_path = "/home/deneme4/Desktop/fs_real/"):
+	total_size = 0
+	for dirpath, dirnames, filenames in os.walk(start_path):
+		for f in filenames:
+			fp = os.path.join(dirpath, f)
+			total_size += os.path.getsize(fp)
+	return total_size
+try:
+	print get_size()
+	sys.stdout.flush()
+except Exception as ex:
+	WriteDebugFile("40",str(ex))

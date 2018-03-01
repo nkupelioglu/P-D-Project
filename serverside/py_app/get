@@ -1,0 +1,55 @@
+#!/usr/bin/python
+import sys
+import hashlib
+import os.path
+import time
+#from __future__ import print_function
+
+def WriteDebugFile(level,exstring):
+	debugpath = "/home/deneme4"
+	directory = "/debug"
+	if not os.path.exists(debugpath + directory):
+		os.makedirs(debugpath + directory)
+	timestr = time.strftime("%Y%m%d-%H%M%S")
+	fdebug = open(debugpath + directory + "/" + "GET" + "-" +  level + "-" + timestr, "w+")
+	fdebug.write(exstring)
+	fdebug.close()	
+
+def md5(fname):
+	hash_md5 = hashlib.md5()
+	with open(fname, "rb") as f:
+		for chunk in iter(lambda: f.read(4096), b""):
+			hash_md5.update(chunk)
+	return hash_md5.hexdigest()
+try:
+	path = "/home/deneme4/Desktop/fs_real/"
+	#file_name = raw_input()
+	#md5 = md5(path + file_name)
+	#print md5
+	data = b""
+	while True:
+		buf = sys.stdin.readline()
+		if len(buf):
+			if os.path.isfile(path + buf):
+				md5 = md5(path + buf)
+				data = md5
+				#sys.stdout.flush()
+				f = open(path + buf,'rb')
+				l = f.read(1024)
+				l = l.strip('\n')
+				length = len(l)
+				while (l):
+					data += l
+					l = f.read(1024)
+				f.close()
+				WriteDebugFile("20", path + buf + ": File requested was sent!")
+				print data
+				sys.stdout.flush()
+			else: 
+				WriteDebugFile("30", path + buf + ": File requested was not found!")
+				print 'nf'
+				sys.stdout.flush()
+		break
+except Exception as ex:
+	WriteDebugFile("40",str(ex))
+

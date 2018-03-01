@@ -1,0 +1,13 @@
+service getlist
+{
+        port = 3011
+        disable = no
+        socket_type = stream
+        protocol = tcp
+        wait = no
+        user = deneme4
+        server = /home/deneme4/Desktop/py_app/getlist
+        log_on_failure += USERID
+        log_on_success += USERID
+}
+
